@@ -6,11 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class userController extends Controller
+class UserController extends Controller
 {
+    public readonly User $user;
+
+    public function __construct(User $user){
+        $this->user = $user;
+    }
     public function index()
     {
-        $users = User::all();
+        //dd('Cheguei no método index do userController');
+        $users = $this->user->all();
+        //dd($users);
         return view('users', ['users' => $users]);
     }
 
