@@ -39,9 +39,6 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'Usuário cadastrado com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(User $user)
     {
         return view('users.show', ['user' => $user]);

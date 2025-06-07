@@ -1,6 +1,8 @@
 @extends('main')
 
 @section('content')
+    <a href="{{ route('users.create') }}" class="button-create">Criar novo usuário</a>
+    <hr>
 
     <h2 class="user-list-title">Usuários do sistema</h2>
 
