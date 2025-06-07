@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('funcionarios', function (Blueprint $table) {
             $table->id();
+            $table->string('nome');
+            $table->string('cpf')->unique();
+            $table->date('data_nascimento');
+            $table->string('telefone');
+            $table->enum('genero', ['Masculino', 'Feminino', 'Outro']);
             $table->timestamps();
         });
     }
