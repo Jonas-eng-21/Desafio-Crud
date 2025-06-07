@@ -21,17 +21,18 @@
 
                 <div class="user-actions">
 
-                    <div class="details-dropdown">
-                        <button class="details-toggle-button">Detalhes</button>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Detalhes</button>
 
 
-                        <div class="details-menu">
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <p><strong>CPF:</strong> {{ $funcionario->cpf }}</p>
                             <p><strong>Nascimento:</strong> {{ $funcionario->data_nascimento->format('d/m/Y') }}</p>
                             <p><strong>Telefone:</strong> {{ $funcionario->telefone }}</p>
                             <p><strong>Gênero:</strong> {{ $funcionario->genero }}</p>
                         </div>
                     </div>
+
 
 
                     <a href="{{ route('funcionarios.edit', $funcionario) }}" class="action-link edit-link">Editar</a>
