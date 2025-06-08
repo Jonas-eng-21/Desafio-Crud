@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Cpf;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -26,7 +27,7 @@ class UpdateFuncionarioRequest extends FormRequest
 
         return [
             'nome' => 'required|string|max:255',
-            'cpf' => ['required', 'string', 'digits:11', Rule::unique('funcionarios')->ignore($funcionarioId)],
+            'cpf' => ['required', 'string', Rule::unique('funcionarios')->ignore($funcionarioId), new Cpf],
             'data_nascimento' => 'required|date',
             'telefone' => 'required|string|digits_between:10,11',
             'genero' => ['required', Rule::in(['Masculino', 'Feminino', 'Outro'])],
