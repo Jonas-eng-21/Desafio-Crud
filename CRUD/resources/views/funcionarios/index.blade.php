@@ -1,14 +1,10 @@
-@extends('main')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Funcionários') }}
+        </h2>
+    </x-slot>
 
-    @push('styles')
-        @vite('resources/css/funcionario-list.css')
-    @endpush
-
-@push('scripts')
-    @vite('resources/js/dropdown.js')
-@endpush
-
-@section('content')
     <a href="{{ route('funcionarios.create') }}" class="button-create">Cadastrar novo funcionário</a>
     <hr>
 
@@ -22,7 +18,9 @@
                 <div class="user-actions">
 
                     <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Detalhes</button>
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Detalhes
+                        </button>
 
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -34,16 +32,18 @@
                     </div>
 
 
-
                     <a href="{{ route('funcionarios.edit', $funcionario) }}" class="action-link edit-link">Editar</a>
                     <form action="{{ route('funcionarios.destroy', $funcionario) }}" method="POST" class="delete-form">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="action-link delete-link" onclick="return confirm('Tem certeza que deseja deletar este funcionário?')">Deletar</button>
+                        <button type="submit" class="action-link delete-link"
+                                onclick="return confirm('Tem certeza que deseja deletar este funcionário?')">Deletar
+                        </button>
                     </form>
                 </div>
             </li>
         @endforeach
     </ul>
 
-@endsection
+</x-app-layout>
+
