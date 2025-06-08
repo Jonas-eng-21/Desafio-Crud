@@ -1,77 +1,84 @@
-@extends('main')
+<x-app-layout>
 
-@push('styles')
-    @vite('resources/css/form.css')
-@endpush
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Funcionários') }}
+        </h2>
+    </x-slot>
 
-@push('scripts')
-    @vite('resources/js/funcionario-validation.js')
-@endpush
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
 
-@section('content')
+                    <h2 class="text-2xl font-semibold mb-6 text-center">Novo Funcionário</h2>
 
-    <div class="form-container">
-        <h2 class="form-title">Cadastrar Novo Funcionário</h2>
+                    {{-- 1. Adicionamos x-data para inicializar o Alpine neste formulário --}}
+                    <form x-data action="{{ route('funcionarios.store') }}" method="POST">
+                        @csrf
 
-        <form action="{{ route('funcionarios.store') }}" method="POST" id="createFuncionarioForm" novalidate>
-            @csrf
+                        {{-- Campo Nome --}}
+                        <div class="mb-6">
+                            <x-input-label for="nome" :value="__('Nome')"/>
+                            <x-text-input id="nome" name="nome" type="text" class="mt-1 block w-full"
+                                          :value="old('nome')" required autofocus/>
+                            <x-input-error class="mt-2" :messages="$errors->get('nome')"/>
+                        </div>
 
+                        {{-- Campo CPF com Máscara --}}
+                        <div class="mb-6">
+                            <x-input-label for="cpf" :value="__('CPF')"/>
+                            {{-- 2. Máscara de CPF aplicada --}}
+                            <x-text-input x-mask="999.999.999-99" id="cpf" name="cpf" type="text"
+                                          class="mt-1 block w-full" :value="old('cpf')" required
+                                          placeholder="___.___.___-__"/>
+                            <x-input-error class="mt-2" :messages="$errors->get('cpf')"/>
+                        </div>
 
-            <div class="form-group">
-                <label for="nome" class="form-label">Nome:</label>
-                <input type="text" id="nome" name="nome" class="form-control" value="{{ old('nome') }}">
-                <div class="js-error-message error-message"></div>
-                @error('nome')
-                <div class="error-message">{{ $message }}</div>
-                @enderror
+                        {{-- Campo Data de Nascimento --}}
+                        <div class="mb-6">
+                            <x-input-label for="data_nascimento" :value="__('Data de Nascimento')"/>
+                            <x-text-input id="data_nascimento" name="data_nascimento" type="date"
+                                          class="mt-1 block w-full" :value="old('data_nascimento')" required/>
+                            <x-input-error class="mt-2" :messages="$errors->get('data_nascimento')"/>
+                        </div>
+
+                        {{-- Campo Telefone com Máscara --}}
+                        <div class="mb-6">
+                            <x-input-label for="telefone" :value="__('Telefone')"/>
+                            <x-text-input x-mask:dynamic="$input.length > 14 ? '(99) 99999-9999' : '(99) 9999-9999'"
+                                          id="telefone" name="telefone" type="tel" class="mt-1 block w-full"
+                                          :value="old('telefone')" required placeholder="(__) _____-____"/>
+                            <x-input-error class="mt-2" :messages="$errors->get('telefone')"/>
+                        </div>
+
+                        {{-- Campo Gênero --}}
+                        <div class="mb-6">
+                            <x-input-label for="genero" :value="__('Gênero')"/>
+                            <select id="genero" name="genero"
+                                    class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                                    required>
+                                <option value="" disabled @selected(!old('genero'))>Selecione uma opção</option>
+                                <option value="Masculino" @selected(old('genero') == 'Masculino')>Masculino</option>
+                                <option value="Feminino" @selected(old('genero') == 'Feminino')>Feminino</option>
+                                <option value="Outro" @selected(old('genero') == 'Outro')>Outro</option>
+                            </select>
+                            <x-input-error class="mt-2" :messages="$errors->get('genero')"/>
+                        </div>
+
+                        <div class="flex items-center justify-end mt-6">
+                            <a href="{{ route('funcionarios.index') }}"
+                               class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
+                                Cancelar
+                            </a>
+
+                            <x-primary-button class="ms-4">
+                                {{ __('Cadastrar') }}
+                            </x-primary-button>
+                        </div>
+                    </form>
+                </div>
             </div>
-
-            <div class="form-group">
-                <label for="cpf" class="form-label">CPF:</label>
-                <input type="text" id="cpf" name="cpf" class="form-control" value="{{ old('cpf') }}" placeholder="Apenas números">
-                <div class="js-error-message error-message"></div>
-                @error('cpf')
-                <div class="error-message">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="form-group">
-                <label for="data_nascimento" class="form-label">Data de Nascimento:</label>
-                <input type="date" id="data_nascimento" name="data_nascimento" class="form-control" value="{{ old('data_nascimento') }}">
-                <div class="js-error-message error-message"></div>
-                @error('data_nascimento')
-                <div class="error-message">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="form-group">
-                <label for="telefone" class="form-label">Telefone:</label>
-                <input type="tel" id="telefone" name="telefone" class="form-control" value="{{ old('telefone') }}" placeholder="Apenas números">
-                <div class="js-error-message error-message"></div>
-                @error('telefone')
-                <div class="error-message">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="form-group">
-                <label for="genero" class="form-label">Gênero:</label>
-                <select id="genero" name="genero" class="form-control">
-                    <option value="" selected disabled>Selecione uma opção</option>
-                    <option value="Masculino" {{ old('genero') == 'Masculino' ? 'selected' : '' }}>Masculino</option>
-                    <option value="Feminino" {{ old('genero') == 'Feminino' ? 'selected' : '' }}>Feminino</option>
-                    <option value="Outro" {{ old('genero') == 'Outro' ? 'selected' : '' }}>Outro</option>
-                </select>
-                <div class="js-error-message error-message"></div>
-                @error('genero')
-                <div class="error-message">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="form-actions">
-                <button type="submit" class="form-button">Cadastrar</button>
-                <a href="{{ route('funcionarios.index') }}" class="form-button-cancel">Cancelar</a>
-            </div>
-        </form>
+        </div>
     </div>
-
-@endsection
+</x-app-layout>
