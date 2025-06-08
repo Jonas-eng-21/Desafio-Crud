@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Cpf;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -14,7 +15,6 @@ class StoreFuncionarioRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        // Limpa a pontuação do CPF e do telefone
         $this->merge([
             'cpf' => preg_replace('/[^0-9]/', '', $this->cpf),
             'telefone' => preg_replace('/[^0-9]/', '', $this->telefone),
@@ -25,7 +25,7 @@ class StoreFuncionarioRequest extends FormRequest
     {
         return [
             'nome' => 'required|string|max:255',
-            'cpf' => 'required|string|unique:funcionarios,cpf|digits:11',
+            'cpf' => ['required', 'string', 'unique:funcionarios,cpf', new Cpf],
             'data_nascimento' => 'required|date',
             'telefone' => 'required|string|digits_between:10,11',
             'genero' => ['required', Rule::in(['Masculino', 'Feminino', 'Outro'])],

@@ -1,5 +1,4 @@
 <x-app-layout>
-
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Funcionários') }}
@@ -13,11 +12,9 @@
 
                     <h2 class="text-2xl font-semibold mb-6 text-center">Novo Funcionário</h2>
 
-                    {{-- 1. Adicionamos x-data para inicializar o Alpine neste formulário --}}
                     <form x-data action="{{ route('funcionarios.store') }}" method="POST">
                         @csrf
 
-                        {{-- Campo Nome --}}
                         <div class="mb-6">
                             <x-input-label for="nome" :value="__('Nome')"/>
                             <x-text-input id="nome" name="nome" type="text" class="mt-1 block w-full"
@@ -25,17 +22,14 @@
                             <x-input-error class="mt-2" :messages="$errors->get('nome')"/>
                         </div>
 
-                        {{-- Campo CPF com Máscara --}}
                         <div class="mb-6">
                             <x-input-label for="cpf" :value="__('CPF')"/>
-                            {{-- 2. Máscara de CPF aplicada --}}
                             <x-text-input x-mask="999.999.999-99" id="cpf" name="cpf" type="text"
                                           class="mt-1 block w-full" :value="old('cpf')" required
                                           placeholder="___.___.___-__"/>
                             <x-input-error class="mt-2" :messages="$errors->get('cpf')"/>
                         </div>
 
-                        {{-- Campo Data de Nascimento --}}
                         <div class="mb-6">
                             <x-input-label for="data_nascimento" :value="__('Data de Nascimento')"/>
                             <x-text-input id="data_nascimento" name="data_nascimento" type="date"
@@ -43,7 +37,6 @@
                             <x-input-error class="mt-2" :messages="$errors->get('data_nascimento')"/>
                         </div>
 
-                        {{-- Campo Telefone com Máscara --}}
                         <div class="mb-6">
                             <x-input-label for="telefone" :value="__('Telefone')"/>
                             <x-text-input x-mask:dynamic="$input.length > 14 ? '(99) 99999-9999' : '(99) 9999-9999'"
@@ -52,7 +45,6 @@
                             <x-input-error class="mt-2" :messages="$errors->get('telefone')"/>
                         </div>
 
-                        {{-- Campo Gênero --}}
                         <div class="mb-6">
                             <x-input-label for="genero" :value="__('Gênero')"/>
                             <select id="genero" name="genero"

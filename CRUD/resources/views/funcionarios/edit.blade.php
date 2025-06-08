@@ -1,9 +1,5 @@
 <x-app-layout>
 
-    @push('styles')
-        @vite('resources/css/form.css')
-    @endpush
-
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Funcionários') }}
