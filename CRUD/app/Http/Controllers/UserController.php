@@ -11,9 +11,11 @@ class UserController extends Controller
 {
     public readonly User $user;
 
-    public function __construct(User $user){
+    public function __construct(User $user)
+    {
         $this->user = $user;
     }
+
     public function index()
     {
         $users = $this->user->newQuery()->orderBy('name', 'asc')->get();
