@@ -110,6 +110,7 @@ A interface do usuário foi construída para ser moderna, responsiva e consisten
 4.  **Configure o ambiente:**
     - Copie o arquivo `.env.example` para `.env`.
     - Configure as variáveis do seu banco de dados (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`).
+    - Crie no seu Workbench ( ou alguma outra ferramenta para analisar o BD que esteja usando ) e crie o seu BD conforme definiu em `DB_DATABASE` anteriormente
     - Gere uma chave para a aplicação:
       ```bash
       php artisan key:generate
